@@ -341,7 +341,7 @@ ViewMain.prototype.timerHandlerDraw = function()
   /* measure performance */
   var endTime = new Date();
   var time = endTime - startTime;
-  time += 50;
+  time += 5;
   var fps = (1000/time).toFixed(2);
   var fpsStr = "000" + fps.toString();
   fpsStr = fpsStr.substr(fpsStr.length-6);
@@ -349,7 +349,7 @@ ViewMain.prototype.timerHandlerDraw = function()
 
   var obj = this;
   setTimeout(function() {
-    obj.timerHandlerDraw();}, 50
+    obj.timerHandlerDraw();}, 5
   );
 };
 
