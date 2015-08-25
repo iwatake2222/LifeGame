@@ -1,6 +1,6 @@
 # Life Game
-
-- Web Application written in HTML5, CSS and JavaScript.
+- Conway's Game of Life
+- Web Application written in HTML5, CSS and JavaScript
 - Please use the following option for chrome
   - "\$path_chrome\chrome.exe" --allow-file-access-from-files
 - Introduction
