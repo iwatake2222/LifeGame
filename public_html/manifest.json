@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Life Game",
+  "description": "the Game of Life",
+  "version": "1.0.1",
+"app": { 
+   "background": {
+     "scripts": ["./chromeApp/chromeStart.js"]
+   }
+  }, 
+  "icons": {
+    "16": "./chromeApp/icon_16.png",
+    "128": "./chromeApp/icon_128.png"
+  },
+
+  "permissions": [
+    "notifications"
+  ]
+}

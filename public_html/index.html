@@ -16,21 +16,21 @@
   <ul>
     <li><a href = "javascript:void(0)">FIELD</a>
       <ul>
-        <li><a href="javascript:void(0)" onclick="menuFieldSize()">SIZE</a></li>
-        <li><a href="javascript:void(0)" id="save" onclick="menuSave()">SAVE</a></li>
-        <li><a href="javascript:void(0)" onclick="menuLoad()">LOAD</a></li>
+        <li><a href="#" id="size">SIZE</a></li>
+        <li><a href="#" id="save">SAVE</a></li>
+        <li><a href="#" id="load">LOAD</a></li>
       </ul>
     </li>
     <li><a href = "javascript:void(0)">VIEW</a>
       <ul>
-        <li><a href="javascript:void(0)" id="grid" onclick="menuViewGrid()">Grid(ON)</a></li>
-        <li><a href="javascript:void(0)" id="colorLife" onclick="menuViewColor ()">Color(OFF)</a></li>
-        <li><a href="javascript:void(0)" id="decimation" onclick="menuViewDecimation ()">Decimation(OFF)</a></li>
+        <li><a href="#" id="grid">Grid(ON)</a></li>
+        <li><a href="#" id="colorLife">Color(ON)</a></li>
+        <li><a href="#" id="decimation">Decimation(OFF)</a></li>
       </ul>
     </li>
-    <li><a href = "javascript:void(0)">HELP</a>
+    <li><a href = "#">HELP</a>
       <ul>
-        <li><a href="javascript:void(0)" onclick="menuVersion()">Version</a></li>
+        <li><a href="#" id="version">Version</a></li>
       </ul>
     </li>
   </ul>
@@ -49,31 +49,31 @@
     Click: Alloc/Delete Life<br>
   </div>
   <br>
-  <input type="button" id="btn_start" class="prmText" value="START" onclick="btn_start_click()">
+  <input type="button" id="btn_start" class="prmText" value="START">
   <div class="prmText">WAIT [msec]</div>
-  <input type="range" id="range_wait" class="range_prm" min="0" max="1000" step="10" value="0" oninput="range_wait_change()" onchange="range_wait_change()">
+  <input type="range" id="range_wait" class="range_prm" min="0" max="1000" step="10" value="0">
   <input type="text" id="num_range_wait" class="range_prm" value="0" readonly="true"><br>
   <br>
   <div class="split2">
-    <input type="button" id="btn_allocLife" class="prmText" value="Alloc Life" onclick="btn_allocLife_click()">
-    <input type="button" id="btn_clearLife" class="prmText" value="Clear Life" onclick="btn_clearLife_click()">
+    <input type="button" id="btn_allocLife" class="prmText" value="Alloc Life">
+    <input type="button" id="btn_clearLife" class="prmText" value="Clear Life">
   </div>
   <div class="prmText">DENSITY [%]]</div>
-  <input type="range" id="range_allocLifeDensity" class="range_prm" min="0" max="100" step="1" value="30" oninput="range_allocLifeDensity_change()" onchange="range_allocLifeDensity_change()">
+  <input type="range" id="range_allocLifeDensity" class="range_prm" min="0" max="100" step="1" value="30">
   <input type="text" id="num_range_allocLifeDensity" class="range_prm" value="30" readonly="true"><br>
   
   <br>
   <div class="prmText">reserved</div>
-  <input type="range" id="range_prm0" class="range_prm" min="0" max="100" step="1" value="70" oninput="range_prm0_change()" onchange="range_prm0_change()">
+  <input type="range" id="range_prm0" class="range_prm" min="0" max="100" step="1" value="70">
   <input type="text" id="num_range_prm0" class="range_prm" value="70" readonly="true"><br>
   <div class="prmText">reserved</div>
-  <input type="range" id="range_prm1" class="range_prm" min="0" max="100" step="1" value="70" oninput="range_prm1_change()" onchange="range_prm1_change()">
+  <input type="range" id="range_prm1" class="range_prm" min="0" max="100" step="1" value="70">
   <input type="text" id="num_range_prm1" class="range_prm" value="70" readonly="true"><br>
   <div class="prmText">reserved</div>
-  <input type="range" id="range_prm2" class="range_prm" min="0" max="100" step="1" value="70" oninput="range_prm2_change()" onchange="range_prm2_change()">
+  <input type="range" id="range_prm2" class="range_prm" min="0" max="100" step="1" value="70">
   <input type="text" id="num_range_prm2" class="range_prm" value="70" readonly="true"><br>
   <div class="prmText">reserved</div>
-  <input type="range" id="range_prm3" class="range_prm" min="0" max="100" step="1" value="70" oninput="range_prm3_change()" onchange="range_prm3_change()">
+  <input type="range" id="range_prm3" class="range_prm" min="0" max="100" step="1" value="70">
   <input type="text" id="num_range_prm3" class="range_prm" value="70" readonly="true"><br>
 
 </div>
@@ -126,69 +126,6 @@
 <script type="text/javascript" src="./js/main.js" charset="utf-8"></script>
 <script type="text/javascript" src="./js/menu.js" charset="utf-8"></script>
 
-<script type="text/javascript">
-  /*** Window control handlers ***/
-  window.onload = function() {;
-    init();
-  };
-  
-  window.onresize = function() {
-    resize();
-  };
-
-  /*** html element handlers (events) ***/
-  function btn_start_click()
-  {
-    latchLife();
-  }
-
-  function btn_allocLife_click()
-  {
-    lifeDensity = document.getElementById("range_allocLifeDensity");
-    allocateLife(lifeDensity.value);
-  }
-  function btn_clearLife_click()
-  {
-    clearLife();
-  }
-
-  /*** html element handlers (parameters) ***/
-  function range_wait_change()
-  {
-    wait = document.getElementById("range_wait");
-    document.getElementById("num_range_wait").value = wait.value;
-  }
-  
-  function range_allocLifeDensity_change()
-  {
-    lifeDensity = document.getElementById("range_allocLifeDensity");
-    document.getElementById("num_range_allocLifeDensity").value = lifeDensity.value;
-  }
-
-  function range_prm0_change()
-  {
-    prm = document.getElementById("range_prm0");
-    document.getElementById("num_range_prm0").value = prm.value;
-  }
-
-  function range_prm1_change()
-  {
-    prm = document.getElementById("range_prm1");
-    document.getElementById("num_range_prm1").value = prm.value;
-  }
-  
-   function range_prm2_change()
-  {
-    prm = document.getElementById("range_prm2");
-    document.getElementById("num_range_prm2").value = prm.value;
-  }
-  
-  function range_prm3_change()
-  {
-    prm = document.getElementById("range_prm3");
-    document.getElementById("num_range_prm3").value = prm.value;
-  }
-</script>
 
 </body>
 </html>

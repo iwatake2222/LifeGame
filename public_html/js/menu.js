@@ -4,11 +4,18 @@
  */
 "use strict";
 
-var VERSION = "1.0";
+var VERSION = "1.0.1";
 
 function menuFieldSize()
 {
   stopLife();
+  if (isChromeApp) {  // for Chrome App
+    var notification = new Notification("Sorry", {
+      body: "This function is not supported on Chrome App",
+    });
+    return;
+  } 
+  
   var fieldSize = window.prompt("FieldSize (width height)", FIELD_WIDTH + " " + FIELD_HEIGHT);
   fieldSize = fieldSize.replace(/[\,, ,\/]/g, "-|-");
   fieldSize = fieldSize.split("-|-");
@@ -73,7 +80,14 @@ function menuViewDecimation()
 function menuVersion()
 {
   stopLife();
+  if (isChromeApp) {  // for Chrome App
+    var notification = new Notification("About This App", {
+      body: "Life Game\nVersion" + VERSION + "\n\ncreated by take-iwiw",
+    });
+    return;
+  } 
   alert("Life Game\nVersion" + VERSION + "\n\ncreated by take-iwiw");
+
 }
 
 

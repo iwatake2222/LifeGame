@@ -62,6 +62,7 @@ LifeWorld.prototype.startThread = function(continuous)
   if (this.worker != null) return;
   
   this.worker = new Worker("./js/lifeWorldThread.js");
+  
   var obj = this;
   this.worker.addEventListener("message", function(e) {
     switch(e.data.type){

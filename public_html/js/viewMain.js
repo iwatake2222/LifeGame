@@ -43,7 +43,7 @@ function ViewMain()
   this.drawGrid = true;
 
   /* Use Color to draw life */
-  this.useColor = false;
+  this.useColor = true;
 
 }
 

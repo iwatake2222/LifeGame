@@ -18,8 +18,10 @@ var g_viewMain = new ViewMain();
 var g_viewMessage = new ViewMessage();
 var g_controllerMain = new ControllerMain(g_viewMain);
 
+/** for Chrome App **/
+var isChromeApp = false;
 
-/*** Wrappers from html, global functions ***/
+/*** Global functions ***/
 /**
  * init
  * Called: at onload
@@ -32,7 +34,13 @@ function init()
   g_lifeWorld.init();
   
   writeFooter(1, "W/H = " + FIELD_WIDTH + "/" + FIELD_HEIGHT);
-  //window.resizeTo(854,480);
+  
+  /* todo. check if chrome App using initial window size*/
+  if(window.outerHeight < 50) {
+    window.resizeTo(720, 480);
+    isChromeApp = true;
+  }
+  //window.resizeTo(960, 600);
   resize();
 }
 
@@ -116,7 +124,6 @@ function latchLife()
 }
 
 
-/*** Wrappers to html elements ***/
 function writeInfo(pos, str, color)
 {
   var color = color || "#FFFFFF";
@@ -144,3 +151,95 @@ function getWaitTime()
 }
 
 
+/*** html elements wrappers ***/
+/** Window control handlers **/
+window.onload = function() {
+  assignHtmlEvents();
+  init();
+};
+
+window.onresize = function() {
+  resize();
+};
+
+/** assignHtmlEvents (for chrome app) **/
+function assignHtmlEvents() {
+  /* menu */
+  document.getElementById("size").onclick = menuFieldSize;
+  document.getElementById("save").onclick = menuSave;
+  document.getElementById("load").onclick = menuLoad;
+  document.getElementById("grid").onclick = menuViewGrid;
+  document.getElementById("colorLife").onclick = menuViewColor;
+  document.getElementById("decimation").onclick = menuViewDecimation;
+  document.getElementById("version").onclick = menuVersion;
+  
+  /* controls */
+  document.getElementById("btn_start").onclick = btn_start_click;
+  document.getElementById("range_wait").oninput = range_wait_change;
+  document.getElementById("range_wait").onchange = range_wait_change;
+  document.getElementById("btn_allocLife").onclick = btn_allocLife_click;
+  document.getElementById("btn_clearLife").onclick = btn_clearLife_click;
+  document.getElementById("range_allocLifeDensity").oninput = range_allocLifeDensity_change;
+  document.getElementById("range_allocLifeDensity").onchange = range_allocLifeDensity_change;
+  document.getElementById("range_prm0").oninput = range_prm0_change;
+  document.getElementById("range_prm0").onchange = range_prm0_change;
+  document.getElementById("range_prm1").oninput = range_prm1_change;
+  document.getElementById("range_prm1").onchange = range_prm1_change;
+  document.getElementById("range_prm2").oninput = range_prm2_change;
+  document.getElementById("range_prm2").onchange = range_prm2_change;
+  document.getElementById("range_prm3").oninput = range_prm3_change;
+  document.getElementById("range_prm3").onchange = range_prm3_change;
+}
+
+/** html element handlers (events) **/
+function btn_start_click()
+{
+  latchLife();
+}
+
+function btn_allocLife_click()
+{
+  var lifeDensity = document.getElementById("range_allocLifeDensity");
+  allocateLife(lifeDensity.value);
+}
+function btn_clearLife_click()
+{
+  clearLife();
+}
+
+/*** html element handlers (parameters) ***/
+function range_wait_change()
+{
+  var wait = document.getElementById("range_wait");
+  document.getElementById("num_range_wait").value = wait.value;
+}
+
+function range_allocLifeDensity_change()
+{
+  var lifeDensity = document.getElementById("range_allocLifeDensity");
+  document.getElementById("num_range_allocLifeDensity").value = lifeDensity.value;
+}
+
+function range_prm0_change()
+{
+  var prm = document.getElementById("range_prm0");
+  document.getElementById("num_range_prm0").value = prm.value;
+}
+
+function range_prm1_change()
+{
+  var prm = document.getElementById("range_prm1");
+  document.getElementById("num_range_prm1").value = prm.value;
+}
+
+ function range_prm2_change()
+{
+  var prm = document.getElementById("range_prm2");
+  document.getElementById("num_range_prm2").value = prm.value;
+}
+
+function range_prm3_change()
+{
+  var prm = document.getElementById("range_prm3");
+  document.getElementById("num_range_prm3").value = prm.value;
+}
