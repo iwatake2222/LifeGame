@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html>
+  
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="./css/main.css">
+  <title>Life Game</title>
+</head>
+
+<body>
+
+<header>
+<nav id="nav_mainMenu">
+  <ul>
+    <li><a href = "javascript:void(0)">FIELD</a>
+      <ul>
+        <li><a href="javascript:void(0)" onclick="menuFieldSize()">SIZE</a></li>
+        <li><a href="javascript:void(0)" id="save" onclick="menuSave()">SAVE</a></li>
+        <li><a href="javascript:void(0)" onclick="menuLoad()">LOAD</a></li>
+      </ul>
+    </li>
+    <li><a href = "javascript:void(0)">VIEW</a>
+      <ul>
+        <li><a href="javascript:void(0)" id="grid" onclick="menuViewGrid()">Grid(ON)</a></li>
+        <li><a href="javascript:void(0)" id="colorLife" onclick="menuViewColor ()">Color(OFF)</a></li>
+        <li><a href="javascript:void(0)" id="decimation" onclick="menuViewDecimation ()">Decimation(OFF)</a></li>
+      </ul>
+    </li>
+    <li><a href = "javascript:void(0)">HELP</a>
+      <ul>
+        <li><a href="javascript:void(0)" onclick="menuVersion()">Version</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</header>
+
+<div id="div_wrapperAll">
+<div id="div_sideControl" class="sideControl">
+  <br>
+  Manual
+  <div class="manual">
+    [P]: START/STOP<br>
+    [S]: STEP<br>
+    Right Drag (Cursor): MOVE<br>
+    Scrool ([Z]/[X]): ZOOM<br>
+    Click: Alloc/Delete Life<br>
+  </div>
+  <br>
+  <input type="button" id="btn_start" class="prmText" value="START" onclick="btn_start_click()">
+  <div class="prmText">WAIT [msec]</div>
+  <input type="range" id="range_wait" class="range_prm" min="0" max="1000" step="10" value="0" oninput="range_wait_change()" onchange="range_wait_change()">
+  <input type="text" id="num_range_wait" class="range_prm" value="0" readonly="true"><br>
+  <br>
+  <div class="split2">
+    <input type="button" id="btn_allocLife" class="prmText" value="Alloc Life" onclick="btn_allocLife_click()">
+    <input type="button" id="btn_clearLife" class="prmText" value="Clear Life" onclick="btn_clearLife_click()">
+  </div>
+  <div class="prmText">DENSITY [%]]</div>
+  <input type="range" id="range_allocLifeDensity" class="range_prm" min="0" max="100" step="1" value="30" oninput="range_allocLifeDensity_change()" onchange="range_allocLifeDensity_change()">
+  <input type="text" id="num_range_allocLifeDensity" class="range_prm" value="30" readonly="true"><br>
+  
+  <br>
+  <div class="prmText">reserved</div>
+  <input type="range" id="range_prm0" class="range_prm" min="0" max="100" step="1" value="70" oninput="range_prm0_change()" onchange="range_prm0_change()">
+  <input type="text" id="num_range_prm0" class="range_prm" value="70" readonly="true"><br>
+  <div class="prmText">reserved</div>
+  <input type="range" id="range_prm1" class="range_prm" min="0" max="100" step="1" value="70" oninput="range_prm1_change()" onchange="range_prm1_change()">
+  <input type="text" id="num_range_prm1" class="range_prm" value="70" readonly="true"><br>
+  <div class="prmText">reserved</div>
+  <input type="range" id="range_prm2" class="range_prm" min="0" max="100" step="1" value="70" oninput="range_prm2_change()" onchange="range_prm2_change()">
+  <input type="text" id="num_range_prm2" class="range_prm" value="70" readonly="true"><br>
+  <div class="prmText">reserved</div>
+  <input type="range" id="range_prm3" class="range_prm" min="0" max="100" step="1" value="70" oninput="range_prm3_change()" onchange="range_prm3_change()">
+  <input type="text" id="num_range_prm3" class="range_prm" value="70" readonly="true"><br>
+
+</div>
+
+<div id="div_main">
+  <canvas id="cnv_main">not supported</canvas>
+</div>
+
+<div id="div_message">
+  <div style="z-index: 1; position: absolute; color: blue">Click to refresh</div>
+  <div id="div_messageCanvas">
+    <canvas id="cnv_message">not supported</canvas>
+  </div>
+  <div id="div_messageText">
+    <div id="info_0" ></div>
+    <div id="info_1" ></div>
+    <div id="info_2" ></div>
+    <div id="info_3" ></div>
+    <div id="info_4" ></div>
+    <div id="info_5" ></div>
+    <div id="info_6" ></div>
+    <div id="info_7" ></div>
+  </div>
+</div>
+
+</div> <!-- div_wrapperAll -->
+
+<div id="footer">
+  <span id="footer_0"></span>
+  <span id="footer_1"></span>
+  <span id="footer_2"></span>
+  <span id="footer_right0" class="footerRight"></span>
+  <span id="footer_right1" class="footerRight"></span>
+  <span id="footer_right2" class="footerRight"></span>
+  <br>
+  <span id="footer_3"></span>
+  <span id="footer_4"></span>
+  <span id="footer_5"></span>
+  <span id="footer_right3" class="footerRight"></span>
+  <span id="footer_right4" class="footerRight"></span>
+  <span id="footer_right5" class="footerRight"></span>
+</div>
+
+
+<script type="text/javascript" src="./js/controllerMain.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/viewMain.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/viewMessage.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/lifeWorldThread.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/lifeWorld.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/main.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/menu.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+  /*** Window control handlers ***/
+  window.onload = function() {;
+    init();
+  };
+  
+  window.onresize = function() {
+    resize();
+  };
+
+  /*** html element handlers (events) ***/
+  function btn_start_click()
+  {
+    latchLife();
+  }
+
+  function btn_allocLife_click()
+  {
+    lifeDensity = document.getElementById("range_allocLifeDensity");
+    allocateLife(lifeDensity.value);
+  }
+  function btn_clearLife_click()
+  {
+    clearLife();
+  }
+
+  /*** html element handlers (parameters) ***/
+  function range_wait_change()
+  {
+    wait = document.getElementById("range_wait");
+    document.getElementById("num_range_wait").value = wait.value;
+  }
+  
+  function range_allocLifeDensity_change()
+  {
+    lifeDensity = document.getElementById("range_allocLifeDensity");
+    document.getElementById("num_range_allocLifeDensity").value = lifeDensity.value;
+  }
+
+  function range_prm0_change()
+  {
+    prm = document.getElementById("range_prm0");
+    document.getElementById("num_range_prm0").value = prm.value;
+  }
+
+  function range_prm1_change()
+  {
+    prm = document.getElementById("range_prm1");
+    document.getElementById("num_range_prm1").value = prm.value;
+  }
+  
+   function range_prm2_change()
+  {
+    prm = document.getElementById("range_prm2");
+    document.getElementById("num_range_prm2").value = prm.value;
+  }
+  
+  function range_prm3_change()
+  {
+    prm = document.getElementById("range_prm3");
+    document.getElementById("num_range_prm3").value = prm.value;
+  }
+</script>
+
+</body>
+</html>

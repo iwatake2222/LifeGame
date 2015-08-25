@@ -1,0 +1,8 @@
+# NetBeans
+nbproject/private/
+
+# Log Files
+*.log
+
+# Others
+.DS_Store
