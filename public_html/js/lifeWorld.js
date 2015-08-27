@@ -13,11 +13,11 @@ var ID_ALIVE = 0;
 var ID_SEX = 1;
 var ID_AGE = 2;
 var ID_POWER = 3;
-var ID_GROUP = 4;
-var ID_INFO0 = 5;
-var ID_INFO1 = 6;
-var ID_INFO2 = 7;
-var ID_INFO3 = 8;
+var ID_DIRECTION_X = 4; // 0-2
+var ID_DIRECTION_Y = 5; // 0-2
+var ID_FAMILY = 6;
+var ID_MOTHER = 7;
+var ID_ID = 8;
 var ID_INFO4 = 9;
 
 
@@ -119,15 +119,24 @@ LifeWorld.prototype.makeMatrixRandom = function(threashold, x0, y0, x1, y1)
   if(x1>=FIELD_WIDTH)x1=FIELD_WIDTH-1;
   if(y0<0)y0=0;
   if(y1>=FIELD_HEIGHT)y1=FIELD_HEIGHT-1;
+  
   for(var y = y0; y <= y1; y++){
       for(var x = x0; x <= x1; x++){
         if(Math.random() <= threashold){
-          this.setLifeInfo(x, y, ID_ALIVE, 1000);
+          this.setLifeInfo(x, y, ID_ALIVE, Math.floor( Math.random() * 100 ) + 100);
+          this.setLifeInfo(x, y, ID_SEX, Math.floor( Math.random() * 2 ));
+          this.setLifeInfo(x, y, ID_AGE, Math.floor( Math.random() * 200 ));
+          this.setLifeInfo(x, y, ID_DIRECTION_X, Math.floor( Math.random() * 3 ));
+          this.setLifeInfo(x, y, ID_DIRECTION_Y, Math.floor( Math.random() * 3 ));
+          this.setLifeInfo(x, y, ID_POWER, Math.floor( Math.random() * 100 ) + 10);
+          this.setLifeInfo(x, y, ID_FAMILY, Math.floor( Math.random() * 1000 ));
         } else {
           this.setLifeInfo(x, y, ID_ALIVE, 0);
         }
       }
   }
+  this.time = 200;
+  
 };
 
 /**
@@ -213,10 +222,14 @@ LifeWorld.prototype.checkBlock = function(x, y, data, invert)
   if(invert) {
     if(this.getLifeInfo(x, y, ID_ALIVE) == 0) {
       this.setLifeInfo(x, y, ID_ALIVE, 1000);
+      this.setLifeInfo(x, y, ID_DIRECTION_X, Math.floor( Math.random() * 3 ));
+      this.setLifeInfo(x, y, ID_DIRECTION_Y, Math.floor( Math.random() * 3 ));
     } else {
       this.setLifeInfo(x, y, ID_ALIVE, 0);
     }
   } else {
     this.setLifeInfo(x, y, ID_ALIVE, data);
+    this.setLifeInfo(x, y, ID_DIRECTION_X, Math.floor( Math.random() * 3 ));
+    this.setLifeInfo(x, y, ID_DIRECTION_Y, Math.floor( Math.random() * 3 ));
   }
 };
