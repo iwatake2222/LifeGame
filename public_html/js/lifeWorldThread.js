@@ -131,13 +131,14 @@ function move(lifeMatrix, lifeMatrixNew, x0, y0, analInfo)
 {
   var info = getLifeInfoAll(lifeMatrix,x0,y0);
   info[ID_AGE]++;
-  if(info[ID_AGE] > Math.floor( Math.random() * 50) + 200) {
-    /* natural death */
-    info[ID_ALIVE]=0;
-    setLifeInfoAll(lifeMatrixNew, x0, y0, info);
-    analInfo.numDeath++;
-    return;
-  }
+  
+//  if(info[ID_AGE] > Math.floor( Math.random() * 50) + 200) {
+//    /* natural death */
+//    info[ID_ALIVE]=0;
+//    setLifeInfoAll(lifeMatrixNew, x0, y0, info);
+//    analInfo.numDeath++;
+//    return;
+//  }
   
       
   var moveX = Math.floor( Math.random() * 6 );
