@@ -6,4 +6,6 @@
   - "\$path_chrome\chrome.exe" --allow-file-access-from-files
 - Introduction
   - <https://www.youtube.com/watch?v=2Mfu2fiAKLU>
+  - <https://www.youtube.com/watch?v=GymvBSIwfZI>
   - <https://chrome.google.com/webstore/detail/life-game/onhjckbhgmooolmbadgcehpdlcibbbgl>
+
