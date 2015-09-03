@@ -4,7 +4,14 @@
  */
 "use strict";
 
-var VERSION = "1.0.1";
+var VERSION = "1.1.0";
+
+function menuInit()
+{
+  menuViewGroup();
+  menuAlgoCo_Ex();
+}
+
 
 function menuFieldSize()
 {
@@ -53,18 +60,6 @@ function menuViewGrid()
   }
 }
 
-function menuViewColor()
-{
-  var elem = document.getElementById("colorLife");
-  if (elem.innerHTML == "Color(OFF)"){
-    g_viewMain.setUseColor(true);
-    elem.innerHTML = "Color(ON)";
-  } else {
-    g_viewMain.setUseColor(false);
-    elem.innerHTML = "Color(OFF)";
-  }
-}
-
 function menuViewDecimation()
 {
   var elem = document.getElementById("decimation");
@@ -74,6 +69,142 @@ function menuViewDecimation()
   } else {
     g_viewMain.setDecimationDraw(0);
     elem.innerHTML = "Decimation(OFF)";
+  }
+}
+
+function menuViewNoColor()
+{
+  var elem = document.getElementById("viewNoColor");
+  if (elem.text == "* NO_COLOR"){
+    return;
+  } else {
+    var otherElems = document.getElementsByClassName("viewInfo");
+    for(var i = 0; i < otherElems.length ; i++){
+      otherElems[i].text = otherElems[i].text.replace("*", "");
+    }
+    elem.text = "* NO_COLOR";
+    g_viewMain.setShowInformation("NO_COLOR");
+    g_viewMessage.setShowInformation("NO_COLOR");
+  }
+}
+
+function menuViewAge()
+{
+  var elem = document.getElementById("viewAge");
+  if (elem.text == "* AGE"){
+    return;
+  } else {
+    var otherElems = document.getElementsByClassName("viewInfo");
+    for(var i = 0; i < otherElems.length ; i++){
+      otherElems[i].text = otherElems[i].text.replace("*", "");
+    }
+    elem.text = "* AGE";
+    g_viewMain.setShowInformation("AGE");
+    g_viewMessage.setShowInformation("AGE");
+  }
+}
+
+
+function menuViewGroup()
+{
+  var elem = document.getElementById("viewGroup");
+  if (elem.text == "* GROUP"){
+    return;
+  } else {
+    var otherElems = document.getElementsByClassName("viewInfo");
+    for(var i = 0; i < otherElems.length ; i++){
+      otherElems[i].text = otherElems[i].text.replace("*", "");
+    }
+    elem.text = "* GROUP";
+    g_viewMain.setShowInformation("GROUP");
+    g_viewMessage.setShowInformation("GROUP");
+  }
+}
+
+function menuViewType()
+{
+  var elem = document.getElementById("viewType");
+  if (elem.text == "* TYPE"){
+    return;
+  } else {
+    var otherElems = document.getElementsByClassName("viewInfo");
+    for(var i = 0; i < otherElems.length ; i++){
+      otherElems[i].text = otherElems[i].text.replace("*", "");
+    }
+    elem.text = "* TYPE";
+    g_viewMain.setShowInformation("TYPE");
+    g_viewMessage.setShowInformation("TYPE");
+  }
+}
+
+function menuAlgoNormal()
+{
+  clearLife();
+  var elem = document.getElementById("algoNormal");
+  if (elem.text == "* NORMAL"){
+    return;
+  } else {
+    var otherElems = document.getElementsByClassName("algorithm");
+    for(var i = 0; i < otherElems.length ; i++){
+      otherElems[i].text = otherElems[i].text.replace("*", "");
+    }
+    elem.text = "* NORMAL";
+    g_lifeWorld.setAlgorithm("NORMAL");
+    
+    document.getElementById("txt_prm0").innerText="reserved";
+    document.getElementById("txt_prm1").innerText="reserved";
+    document.getElementById("txt_prm2").innerText="reserved";
+    document.getElementById("txt_prm3").innerText="reserved";
+  }
+}
+
+function menuAlgoCo_Ex()
+{
+  clearLife();
+  var elem = document.getElementById("algoCo_Ex");
+  if (elem.text == "* CO-EX"){
+    return;
+  } else {
+    var otherElems = document.getElementsByClassName("algorithm");
+    for(var i = 0; i < otherElems.length ; i++){
+      otherElems[i].text = otherElems[i].text.replace("*", "");
+    }
+    elem.text = "* CO-EX";
+    
+    document.getElementById("txt_prm0").innerText="Cooperative";
+    document.getElementById("range_prm0").value = 100;
+    document.getElementById("num_range_prm0").value = 100;
+    
+    document.getElementById("txt_prm1").innerText="Lifespan";
+    document.getElementById("range_prm1").value = 0;
+    document.getElementById("num_range_prm1").value = 0;
+    document.getElementById("range_prm1").max = 500;
+    
+    document.getElementById("txt_prm2").innerText="reserved";
+    document.getElementById("txt_prm3").innerText="reserved";
+    
+    g_lifeWorld.setAlgorithm("CO_EX");
+  }
+}
+
+function menuAlgoMove()
+{
+  clearLife();
+  var elem = document.getElementById("algoMove");
+  if (elem.text == "* MOVE"){
+    return;
+  } else {
+    var otherElems = document.getElementsByClassName("algorithm");
+    for(var i = 0; i < otherElems.length ; i++){
+      otherElems[i].text = otherElems[i].text.replace("*", "");
+    }
+    elem.text = "* MOVE";
+    g_lifeWorld.setAlgorithm("MOVE");
+    
+    document.getElementById("txt_prm0").innerText="reserved";
+    document.getElementById("txt_prm1").innerText="reserved";
+    document.getElementById("txt_prm2").innerText="reserved";
+    document.getElementById("txt_prm3").innerText="reserved";
   }
 }
 
@@ -175,7 +306,7 @@ function openFileDialog(cb)
   fileDialog.addEventListener("change", function(evt){
     cb(evt.target.files);
   },false);
-  //document.body.appendChild(fileDialog);
+  document.body.appendChild(fileDialog);
   fileDialog.click();
 }
 

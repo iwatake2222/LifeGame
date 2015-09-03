@@ -45,6 +45,9 @@ function ViewMain()
   /* Use Color to draw life */
   this.useColor = true;
 
+  /* decide color of lives by menu setting */
+  this.informationMaker = null;
+
 }
 
 /**
@@ -367,21 +370,10 @@ ViewMain.prototype.showLifeMatrix = function()
     if( y < this.focusedAreaY0 || y > this.focusedAreaY1 )continue;
     for(var x = 0; x < FIELD_WIDTH; x+=this.drawInterval+1){
       if( x < this.focusedAreaX0 || x > this.focusedAreaX1 )continue;
-      
-      if( g_lifeWorld.getLifeInfo(x, y, ID_ALIVE) != 0){
-        
-        if(this.useColor) {
-          var age = g_lifeWorld.getLifeInfo(x, y, ID_AGE)/g_lifeWorld.time;
-          if(age<0.3) {
-            this.ctxMain.fillStyle = "#FF0000";
-          } else if(age<0.6) {
-            this.ctxMain.fillStyle = "#00FF00";
-          } else if(age<0.9) {
-            this.ctxMain.fillStyle = "#0000FF";
-          } else {
-            this.ctxMain.fillStyle = "#FF00FF";
-          }
-        }
+      var info = g_lifeWorld.getLifeInfoAll(x, y);
+      if( info[ID_ALIVE] != 0){
+        var color = this.informationMaker.getLifeColor(info, g_lifeWorld.analInfo, g_lifeWorld.time);
+        this.ctxMain.fillStyle = color;
         this.ctxMain.fillRect(
           this.drawScale*(x-this.focusedAreaX0)+1, 
           this.drawScale*(y-this.focusedAreaY0)+1, 
@@ -394,3 +386,24 @@ ViewMain.prototype.showLifeMatrix = function()
   this.ctxMain.fillStyle = preFillStyle;
 
 };
+
+
+ViewMain.prototype.setShowInformation = function(infoType)
+{
+  switch (infoType){
+    default:
+    case "NO_COLOR":
+      this.informationMaker = new InformationMakerNoColor();
+      break;
+    case "AGE":
+      this.informationMaker = new InformationMakerAge();
+      break;
+    case "GROUP":
+      this.informationMaker = new InformationMakerGroup();
+      break;
+    case "TYPE":
+      this.informationMaker = new InformationMakerType();
+      break;
+  }
+};
+

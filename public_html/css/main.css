@@ -129,6 +129,7 @@ html, body {
 
 #nav_mainMenu ul li ul li {
   float:none;
+  width: 150px;  /* todo: auto */
 
 }
 

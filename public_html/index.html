@@ -24,8 +24,22 @@
     <li><a href = "javascript:void(0)">VIEW</a>
       <ul>
         <li><a href="#" id="grid">Grid(ON)</a></li>
-        <li><a href="#" id="colorLife">Color(ON)</a></li>
         <li><a href="#" id="decimation">Decimation(OFF)</a></li>
+      </ul>
+    </li>
+    <li><a href = "javascript:void(0)">INFO</a>
+      <ul>
+        <li><a href="#" id="viewNoColor" class="viewInfo">NO_COLOR</a></li>
+        <li><a href="#" id="viewAge" class="viewInfo">AGE</a></li>
+        <li><a href="#" id="viewGroup" class="viewInfo">GROUP</a></li>
+        <li><a href="#" id="viewType" class="viewInfo">TYPE</a></li>
+      </ul>
+    </li>
+    <li><a href = "#">ALGORITHMS</a>
+      <ul>
+        <li><a href="#" id="algoNormal" class="algorithm">NORMAL</a></li>
+        <li><a href="#" id="algoCo_Ex" class="algorithm">CO-EX</a></li>
+        <li><a href="#" id="algoMove" class="algorithm">MOVE</a></li>
       </ul>
     </li>
     <li><a href = "#">HELP</a>
@@ -63,16 +77,16 @@
   <input type="text" id="num_range_allocLifeDensity" class="range_prm" value="30" readonly="true"><br>
   
   <br>
-  <div class="prmText">reserved</div>
+  <div class="prmText" id="txt_prm0">reserved</div>
   <input type="range" id="range_prm0" class="range_prm" min="0" max="100" step="1" value="70">
   <input type="text" id="num_range_prm0" class="range_prm" value="70" readonly="true"><br>
-  <div class="prmText">reserved</div>
+  <div class="prmText" id="txt_prm1">reserved</div>
   <input type="range" id="range_prm1" class="range_prm" min="0" max="100" step="1" value="70">
   <input type="text" id="num_range_prm1" class="range_prm" value="70" readonly="true"><br>
-  <div class="prmText">reserved</div>
+  <div class="prmText" id="txt_prm2">reserved</div>
   <input type="range" id="range_prm2" class="range_prm" min="0" max="100" step="1" value="70">
   <input type="text" id="num_range_prm2" class="range_prm" value="70" readonly="true"><br>
-  <div class="prmText">reserved</div>
+  <div class="prmText" id="txt_prm3">reserved</div>
   <input type="range" id="range_prm3" class="range_prm" min="0" max="100" step="1" value="70">
   <input type="text" id="num_range_prm3" class="range_prm" value="70" readonly="true"><br>
 
@@ -96,6 +110,9 @@
     <div id="info_5" ></div>
     <div id="info_6" ></div>
     <div id="info_7" ></div>
+    <div id="info_8" ></div>
+    <div id="info_9" ></div>
+    <div id="info_10" ></div>
   </div>
 </div>
 
@@ -119,10 +136,19 @@
 
 
 <script type="text/javascript" src="./js/controllerMain.js" charset="utf-8"></script>
-<script type="text/javascript" src="./js/viewMain.js" charset="utf-8"></script>
-<script type="text/javascript" src="./js/viewMessage.js" charset="utf-8"></script>
 <script type="text/javascript" src="./js/lifeWorldThread.js" charset="utf-8"></script>
 <script type="text/javascript" src="./js/lifeWorld.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/extension/lifeAlgorithm.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/extension/lifeAlgorithmNormal.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/extension/lifeAlgorithmCo_Ex.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/extension/lifeAlgorithmMove.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/extension/informationMaker.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/extension/informationMakerNoColor.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/extension/informationMakerAge.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/extension/informationMakerGroup.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/extension/informationMakerType.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/viewMain.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/viewMessage.js" charset="utf-8"></script>
 <script type="text/javascript" src="./js/main.js" charset="utf-8"></script>
 <script type="text/javascript" src="./js/menu.js" charset="utf-8"></script>
 

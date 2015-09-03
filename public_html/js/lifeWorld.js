@@ -10,15 +10,15 @@
  */
 var NUM_INFO = 10;
 var ID_ALIVE = 0;
-var ID_SEX = 1;
-var ID_AGE = 2;
-var ID_POWER = 3;
-var ID_GROUP = 4;
-var ID_INFO0 = 5;
-var ID_INFO1 = 6;
-var ID_INFO2 = 7;
-var ID_INFO3 = 8;
-var ID_INFO4 = 9;
+var ID_ID = 1;
+var ID_GROUP = 2;
+var ID_AGE = 3;
+var ID_SEX = 4;
+var ID_POWER = 5;
+var ID_DIRECTION_X = 6; // 0-2
+var ID_DIRECTION_Y = 7; // 0-2
+var ID_TYPE = 8;    // 0 = cooperative, 1 = exclusive
+var ID_INFO1 = 9;
 
 
 function LifeWorld()
@@ -28,6 +28,12 @@ function LifeWorld()
   this.analInfo = {numLife: 0, numDeath: 0, numBirth: 0}; //Analysis Information
   this.time = 0;
   this.calcTime = 1;
+  this.group = 0;
+  
+  this.lifeAlgorithm = null;
+  
+  this.deletedX = -1;
+  this.deletedY = -1;
 }
 
 /**
@@ -40,6 +46,7 @@ LifeWorld.prototype.init = function()
   this.stopThread();
   this.time = 0;
   this.calcTime = 1;
+  this.group =0;
   this.lifeMatrix = new Uint32Array(FIELD_WIDTH*FIELD_HEIGHT*NUM_INFO);
   for(var y = 0; y < FIELD_HEIGHT; y++){
     for(var x = 0; x < FIELD_WIDTH; x++){
@@ -85,11 +92,13 @@ LifeWorld.prototype.startThread = function(continuous)
     
   }, false);
   
+  var prm = this.lifeAlgorithm.setParam();
+  
   var fpsTimePrevious = new Date();
   if(continuous) {
-    this.worker.postMessage({"cmd": "start", "width": FIELD_WIDTH, "height": FIELD_HEIGHT, "lifeMatrix": this.lifeMatrix, "timeout": getWaitTime()});
+    this.worker.postMessage({"cmd": "start", "width": FIELD_WIDTH, "height": FIELD_HEIGHT, "lifeAlgorithm": this.lifeAlgorithm, "lifeMatrix": this.lifeMatrix, "prm": prm, "timeout": getWaitTime()});
   } else {
-    this.worker.postMessage({"cmd": "startOnce", "width": FIELD_WIDTH, "height": FIELD_HEIGHT, "lifeMatrix": this.lifeMatrix, "timeout": 0});
+    this.worker.postMessage({"cmd": "startOnce", "width": FIELD_WIDTH, "height": FIELD_HEIGHT, "lifeAlgorithm": this.lifeAlgorithm, "lifeMatrix": this.lifeMatrix, "prm": prm, "timeout": 0});
   }
 };
 
@@ -119,15 +128,19 @@ LifeWorld.prototype.makeMatrixRandom = function(threashold, x0, y0, x1, y1)
   if(x1>=FIELD_WIDTH)x1=FIELD_WIDTH-1;
   if(y0<0)y0=0;
   if(y1>=FIELD_HEIGHT)y1=FIELD_HEIGHT-1;
+  
+  this.lifeAlgorithm.cntLife = 0;
   for(var y = y0; y <= y1; y++){
-      for(var x = x0; x <= x1; x++){
-        if(Math.random() <= threashold){
-          this.setLifeInfo(x, y, ID_ALIVE, 1000);
-        } else {
-          this.setLifeInfo(x, y, ID_ALIVE, 0);
-        }
+    for(var x = x0; x <= x1; x++){
+      if(Math.random() <= threashold){
+        var info = this.lifeAlgorithm.createLife(this.group);
+        this.setLifeInfoAll(x, y, info);
+      } else {
+        this.setLifeInfo(x, y, ID_ALIVE, 0);
       }
+    }
   }
+  this.group++;
 };
 
 /**
@@ -139,13 +152,14 @@ LifeWorld.prototype.clearMatrix = function()
 {
   this.stopThread();
   for(var y = 0; y < FIELD_HEIGHT; y++){
-      for(var x = 0; x < FIELD_WIDTH; x++){
-        //this.setLifeInfo(x, y, ID_ALIVE, 0);
-        for(var i = 0; i < NUM_INFO; i++){
-          this.lifeMatrix[(y*FIELD_WIDTH + x)*NUM_INFO + i] = 0;
-        }
+    for(var x = 0; x < FIELD_WIDTH; x++){
+      //this.setLifeInfo(x, y, ID_ALIVE, 0);
+      for(var i = 0; i < NUM_INFO; i++){
+        this.lifeMatrix[(y*FIELD_WIDTH + x)*NUM_INFO + i] = 0;
       }
+    }
   }
+  this.group = 0;
 };
 
 /**
@@ -208,15 +222,39 @@ LifeWorld.prototype.getLifeInfoAll = function(x, y)
  * Called: at mouse click
  * Write: lifeMatrix as alive
  */
-LifeWorld.prototype.checkBlock = function(x, y, data, invert)
+
+LifeWorld.prototype.checkBlock = function(x, y, invert)
 {
   if(invert) {
     if(this.getLifeInfo(x, y, ID_ALIVE) == 0) {
-      this.setLifeInfo(x, y, ID_ALIVE, 1000);
+      var info = this.lifeAlgorithm.createLife(this.group);
+      this.setLifeInfoAll(x, y, info);
     } else {
       this.setLifeInfo(x, y, ID_ALIVE, 0);
+      this.deletedX = x;
+      this.deletedY = y;
     }
   } else {
-    this.setLifeInfo(x, y, ID_ALIVE, data);
+    if(x != this.deletedX || y != this.deletedY){
+      var info = this.lifeAlgorithm.createLife(this.group);
+      this.setLifeInfoAll(x, y, info);
+    }
+  }
+};
+
+
+LifeWorld.prototype.setAlgorithm = function(algorithmType)
+{
+  switch (algorithmType){
+    default:
+    case "NORMAL":
+      this.lifeAlgorithm = new LifeAlgorithmNormal(algorithmType);
+      break;
+    case "CO_EX":
+      this.lifeAlgorithm = new LifeAlgorithmCo_Ex(algorithmType);
+      break;
+    case "MOVE":
+      this.lifeAlgorithm = new LifeAlgorithmMove(algorithmType);
+      break;
   }
 };

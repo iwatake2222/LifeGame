@@ -32,7 +32,8 @@ function init()
   g_viewMessage.init();
   g_controllerMain.init();
   g_lifeWorld.init();
-  
+  menuInit();
+    
   writeFooter(1, "W/H = " + FIELD_WIDTH + "/" + FIELD_HEIGHT);
   
   /* todo. check if chrome App using initial window size*/
@@ -42,6 +43,7 @@ function init()
   }
   //window.resizeTo(960, 600);
   resize();
+  
 }
 
 /**
@@ -169,8 +171,16 @@ function assignHtmlEvents() {
   document.getElementById("save").onclick = menuSave;
   document.getElementById("load").onclick = menuLoad;
   document.getElementById("grid").onclick = menuViewGrid;
-  document.getElementById("colorLife").onclick = menuViewColor;
+  document.getElementById("viewNoColor").onclick = menuViewNoColor;
+  document.getElementById("viewAge").onclick = menuViewAge;
+  document.getElementById("viewGroup").onclick = menuViewGroup;
+  document.getElementById("viewType").onclick = menuViewType;
   document.getElementById("decimation").onclick = menuViewDecimation;
+  
+  document.getElementById("algoNormal").onclick = menuAlgoNormal;
+  document.getElementById("algoCo_Ex").onclick = menuAlgoCo_Ex;
+  document.getElementById("algoMove").onclick = menuAlgoMove;
+  
   document.getElementById("version").onclick = menuVersion;
   
   /* controls */

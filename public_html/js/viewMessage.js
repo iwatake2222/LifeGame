@@ -24,6 +24,9 @@ function ViewMessage()
   /** Canvas Context**/
   this.cnvMessage;
   this.ctxMessage;
+  
+  /* decide color of lives by menu setting */
+  this.informationMaker = null;
 }
 
 /*** Public Methods ***/
@@ -119,8 +122,8 @@ ViewMessage.prototype.drawGraph = function(x, y, color)
 
   /* when reach right edge, stretch 1/2 and change scale */
   if(x > this.cnvMessage.width * this.graphScaleX) {
-    this.stretchCanvasX(0.5);
-    this.graphScaleX *= 2;
+    this.stretchCanvasX(0.8);
+    this.graphScaleX *= 1.25;
   }
   x /= this.graphScaleX;
   
@@ -174,35 +177,41 @@ ViewMessage.prototype.stretchCanvasX = function(scale)
  */
 ViewMessage.prototype.showAnalysisInfo = function()
 {
-  /* Show Life Count */
+  /* Show General Information */
   writeFooterRight(0, " Life = " + g_lifeWorld.analInfo.numLife);
   this.drawGraph(g_lifeWorld.time, g_lifeWorld.analInfo.numLife, "rgb(255,255,255)");
   writeFooterRight(3, " Birth = " + g_lifeWorld.analInfo.numBirth);
-  //this.drawGraph(g_time, g_lifeWorld.analInfo.numBirth, "rgb(255,255,0)");
   writeFooterRight(4, " Death = " + g_lifeWorld.analInfo.numDeath);
-  //this.drawGraph(g_time, g_lifeWorld.analInfo.numDeath, "rgb(0,255,255)");
   
-  /* Show Age */
-  var cnt=0;
-  var ageArray = new Uint32Array(Math.ceil(100/30));
-  for(var y = 0; y < FIELD_HEIGHT; y++){
-    for(var x = 0; x < FIELD_WIDTH; x++){
-      if(g_lifeWorld.getLifeInfo(x, y, ID_ALIVE)){
-        var age = g_lifeWorld.getLifeInfo(x, y, ID_AGE);
-        age = Math.floor(age/g_lifeWorld.time*100);
-        age = Math.floor(age/30);
-        ageArray[age] += 1;
-        cnt++;
-      }
-    }
+  /* Show Analysis Information */
+  var infoArray = this.informationMaker.getShowInformation();
+  for(var i = 0; i < infoArray.length; i++){
+    writeInfo(i, infoArray[i].str, infoArray[i].color);
+    this.drawGraph(g_lifeWorld.time, infoArray[i].number, infoArray[i].color);
   }
-  writeInfo(0, "age/time = <br>0-29: " + ageArray[0], "#FF0000");
-  this.drawGraph(g_lifeWorld.time, ageArray[0], "#FF0000");
-  writeInfo(1, "30-59: " + ageArray[1], "#00FF00");
-  this.drawGraph(g_lifeWorld.time, ageArray[1], "#00FF00");
-  writeInfo(2, "60-89: " + ageArray[2], "#0000FF");
-  this.drawGraph(g_lifeWorld.time, ageArray[2], "#0000FF");
-  writeInfo(3, "90-100: " + ageArray[3], "#FF00FF");
-  this.drawGraph(g_lifeWorld.time, ageArray[3], "#FF00FF");
-  
 };
+
+
+ViewMessage.prototype.setShowInformation = function(infoType)
+{
+  for(var i = 0; i < 11; i++){    // todo: magic number
+    writeInfo(i, "", "#000000");
+  }
+  
+  switch (infoType){
+    default:
+    case "NO_COLOR":
+      this.informationMaker = new InformationMakerNoColor();
+      break;
+    case "AGE":
+      this.informationMaker = new InformationMakerAge();
+      break;
+    case "GROUP":
+      this.informationMaker = new InformationMakerGroup();
+      break;
+    case "TYPE":
+      this.informationMaker = new InformationMakerType();
+      break;
+  }
+};
+

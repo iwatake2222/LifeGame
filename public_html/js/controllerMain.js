@@ -143,7 +143,7 @@ ControllerMain.prototype.setMouseEventListener = function()
       var pointsArray = view.convertCanvasToField(mouseX, mouseY);
       //var pointsArray = new Array(0, 1, 2, 3);
       for(var i=0; i < pointsArray.length; i+=2) {
-        g_lifeWorld.checkBlock(pointsArray[i], pointsArray[i+1], 1.0, convert);
+        g_lifeWorld.checkBlock(pointsArray[i], pointsArray[i+1], convert);
       }
       
   }
