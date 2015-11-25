@@ -9,3 +9,5 @@
   - <https://www.youtube.com/watch?v=GymvBSIwfZI>
   - <https://chrome.google.com/webstore/detail/life-game/onhjckbhgmooolmbadgcehpdlcibbbgl>
 
+- Play Game
+  - <http://take-iwiw.github.io/LifeGame/>
