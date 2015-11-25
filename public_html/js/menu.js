@@ -8,8 +8,8 @@ var VERSION = "1.1.0";
 
 function menuInit()
 {
-  menuViewGroup();
-  menuAlgoCo_Ex();
+  menuViewAge();
+  menuAlgoNormal();
 }
 
 
